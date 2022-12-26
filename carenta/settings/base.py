@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     # 'storages',
     #local 
-    'core'
+    'core',
+    'seo'
 ]
 
 MIDDLEWARE = [
