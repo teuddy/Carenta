@@ -1,3 +1,4 @@
+
 """
 Django settings for carenta project.
 
@@ -10,10 +11,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
+import dj_database_url
+
+from dotenv import find_dotenv, load_dotenv
+
+
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #remote
+    'django_extensions',
+    # 'storages',
     #local 
     'core'
 ]
@@ -56,7 +67,7 @@ ROOT_URLCONF = 'carenta.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,12 +86,10 @@ WSGI_APPLICATION = 'carenta.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+load_dotenv(find_dotenv())
+
+DATABASES = {'default': dj_database_url.config(default='sqlite:///db.sqlite3',conn_max_age=600,ssl_require=False)}
+
 
 
 # Password validation
@@ -114,10 +123,23 @@ USE_I18N = True
 USE_TZ = True
 
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+
+# tells django to look for static files
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
