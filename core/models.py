@@ -7,13 +7,12 @@ from seo.models import SeoModelTranslation
 from django.db.models import TextField
 
 
-class CarModel(SeoModel):
+class CarModel(models.Model):
     name = models.CharField(max_length=70)
     slug = models.SlugField(max_length=255,
         unique=True,
         allow_unicode=True
     )
-    description = TextField(blank=True)
 
 
 
@@ -24,7 +23,6 @@ class CarModelTranslation(SeoModelTranslation):
         related_name = 'translation',
         on_delete= models.CASCADE
     )
-    name = models.CharField(max_length=128, blank=True, null=True)
     description = models.CharField(max_length=128, blank=True, null=True)
 
     def get_translated_object_id(self):
