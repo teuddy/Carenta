@@ -1,6 +1,8 @@
 import django_on_heroku
 from decouple import config
 
+from dotenv import find_dotenv, load_dotenv
+
 
 from .base import * 
 
@@ -9,6 +11,12 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+
+
+load_dotenv(find_dotenv())
+
+DATABASES = {'default': dj_database_url.config(default='sqlite:///db.sqlite3',conn_max_age=600,ssl_require=False)}
+
 
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
