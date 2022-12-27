@@ -3,10 +3,21 @@
 import os
 import sys
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'carenta.settings.dev')
+
+    if os.environ.get("DJANGO_ENV") == 'prod':
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'carenta.settings.prod'
+    elif os.environ.get("DJANGO_ENV") == 'dev':
+        os.environ['DJANGO_SETTINGS_MODULE'] = 'carenta.settings.dev'
+
+
+    # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'carenta.settings.dev')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
